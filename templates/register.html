@@ -68,12 +68,25 @@
             p a:hover {
                 text-decoration: underline;
             }
+            .alert {
+                padding: 10px;
+                margin: 20px 0;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                border-radius: 4px;
+                background-color: #dff0d8;
+                color: #333;
+            }
         </style>
     </head>
     <body>
         <div class="form-container">
             <h2>Register</h2>
             <form action="/register" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required />
+                </div>
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" required />
@@ -93,6 +106,11 @@
                 </div>
                 <button type="submit" class="btn">Register</button>
             </form>
+            {% if messages %}
+            <div class="alert" role="alert">
+                {% for message in messages %} {{ message }} {% endfor %}
+            </div>
+            {% endif %}
             <p>Already have an account? <a href="/login">Login here</a></p>
         </div>
     </body>
