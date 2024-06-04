@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %}{% endblock title %}</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+                background: #f0f0f0;
+            }
+            .navbar {
+                box-sizing: border-box;
+                background: #007bff;
+                padding: 10px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .navbar a {
+                color: white;
+                text-decoration: none;
+                padding: 10px 15px;
+                transition: background 0.3s ease;
+            }
+            .navbar a:hover {
+                background: #0056b3;
+            }
+            .content {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+                background: #f0f0f0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: calc(100vh - 60px);
+            }  
+        </style>
+    </head>
+    <body>
+        <header class="navbar">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="login.html">Login</a>
+                <a href="register.html">Register</a>
+            </div>
+        </header>
+        <div class="content">{% block body %}{% endblock body %}</div>
+    </body>
+</html>
