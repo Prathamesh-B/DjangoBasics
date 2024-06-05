@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Info Form</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+                background: #f0f0f0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .form-container {
+                margin: 10px;
+                background: #ffffff;
+                padding: 40px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 10px;
+                width: 400px;
+                text-align: center;
+            }
+            h2 {
+                margin-bottom: 20px;
+                color: #333;
+            }
+            .form-group {
+                margin-bottom: 15px;
+                text-align: left;
+            }
+            label {
+                display: block;
+                margin-bottom: 5px;
+                color: #333;
+            }
+            input[type="text"],
+            input[type="number"],
+            input[type="date"],
+            textarea,
+            select {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+            input[type="radio"],
+            input[type="checkbox"] {
+                margin-right: 10px;
+            }
+            textarea {
+                resize: vertical;
+            }
+            button.btn {
+                width: 100%;
+                padding: 10px;
+                background: #007bff;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                font-size: 1em;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+            button.btn:hover {
+                background: #0056b3;
+            }
+            .alert {
+                padding: 10px;
+                margin: 20px 0;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                border-radius: 4px;
+                background-color: #dff0d8;
+                color: #333;
+            }
+            .buttons {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+            }
+            .nav {
+                text-decoration: none;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                background: #007bff;
+                color: white;
+                font-size: 1em;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+            .nav:hover {
+                background: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="form-container">
+            <div class="buttons">
+                <a href="/view" class="nav">View</a>
+                <a href="/logout" class="nav">Logout</a>
+            </div>
+            <h2>Add Info</h2>
+            <form action="/form" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required />
+                </div>
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" required />
+                </div>
+                <div class="form-group">
+                    <label for="phone_no">Phone No:</label>
+                    <input
+                        type="number"
+                        id="phone_no"
+                        name="phone_no"
+                        required
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="date">Date of Birth:</label>
+                    <input type="date" id="date" name="date" required />
+                </div>
+                <div class="form-group">
+                    <label>Gender:</label>
+                    <input type="radio" id="male" name="gender" value="male" />
+                    <label for="male" style="display: inline">Male</label>
+                    <input
+                        type="radio"
+                        id="female"
+                        name="gender"
+                        value="female"
+                    />
+                    <label for="female" style="display: inline">Female</label>
+                    <input
+                        type="radio"
+                        id="other"
+                        name="gender"
+                        value="other"
+                    />
+                    <label for="other" style="display: inline">Other</label>
+                </div>
+                <div class="form-group">
+                    <label for="hobbies">Hobbies:</label>
+                    <input
+                        type="checkbox"
+                        id="reading"
+                        name="hobbies"
+                        value="reading"
+                    />
+                    <label for="reading" style="display: inline">Reading</label>
+                    <input
+                        type="checkbox"
+                        id="traveling"
+                        name="hobbies"
+                        value="traveling"
+                    />
+                    <label for="traveling" style="display: inline"
+                        >Traveling</label
+                    >
+                    <input
+                        type="checkbox"
+                        id="sports"
+                        name="hobbies"
+                        value="sports"
+                    />
+                    <label for="sports" style="display: inline">Sports</label>
+                </div>
+                <div class="form-group">
+                    <label for="country">Country:</label>
+                    <select id="country" name="country" required>
+                        <option value="india">India</option>
+                        <option value="usa">United States</option>
+                        <option value="canada">Canada</option>
+                        <option value="uk">United Kingdom</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bio">Bio:</label>
+                    <textarea id="bio" name="bio" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn">Submit</button>
+            </form>
+            {% if messages %}
+            <div class="alert" role="alert">
+                {% for message in messages %} {{ message }} {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </body>
+</html>

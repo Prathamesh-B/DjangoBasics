@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>All Forms</title>
+        <style>
+            body {
+                margin: 10px;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+                background: #f0f0f0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .container {
+                width: 400px;
+                text-align: center;
+                background: #ffffff;
+                padding: 40px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 10px;
+            }
+            h2 {
+                margin-bottom: 20px;
+                color: #333;
+            }
+            .buttons {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+            }
+            .btn {
+                text-decoration: none;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                background: #007bff;
+                color: white;
+                font-size: 1em;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+            .btn:hover {
+                background: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="buttons">
+                <a href="/form" class="btn">Add</a>
+                <a href="/logout" class="btn">Logout</a>
+            </div>
+            <h2>All Forms Data</h2>
+            {% for form in forms %}
+            <hr />
+            <p><strong>Name:</strong> {{ form.name }}</p>
+            <p><strong>Age:</strong> {{ form.age }}</p>
+            <p><strong>Phone Number:</strong> {{ form.phone_no }}</p>
+            <p><strong>Date of Birth:</strong> {{ form.date_of_birth }}</p>
+            <p><strong>Gender:</strong> {{ form.gender }}</p>
+            <p><strong>Hobbies:</strong> {{ form.hobbies }}</p>
+            <p><strong>Country:</strong> {{ form.country }}</p>
+            <p><strong>Bio:</strong> {{ form.bio }}</p>
+            {% endfor %}
+        </div>
+    </body>
+</html>
