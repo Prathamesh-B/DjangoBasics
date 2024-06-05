@@ -68,3 +68,8 @@ def formPage(request):
 def viewForms(request):
     forms = UserForm.objects.all()
     return render(request, 'all_forms.html', {'forms': forms})
+
+def logoutUser(request):
+    logout(request)
+    messages.info(request, "Logged out successfully!")
+    return redirect('/login')
