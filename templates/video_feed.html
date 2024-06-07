@@ -2,9 +2,33 @@
 <html>
     <head>
         <title>Live Stream</title>
+        <script>
+            function changeFilter() {
+                var filter = document.getElementById("filter").value;
+                var video = document.getElementById("video");
+                video.src = "/video_feed?filter=" + filter;
+            }
+
+            window.addEventListener("beforeunload", function () {
+                fetch("/release_camera", { method: "POST" });
+            });
+        </script>
     </head>
     <body>
         <h1>Live Stream</h1>
-        <img src="http://127.0.0.1:8000/video_feed" width="640" height="480" />
+        <label for="filter">Choose a filter:</label>
+        <select id="filter" onchange="changeFilter()">
+            <option value="none">None</option>
+            <option value="gray">Grayscale</option>
+            <option value="blur">Blur</option>
+            <option value="canny">Canny Edge Detection</option>
+        </select>
+        <br />
+        <img
+            id="video"
+            src="/video_feed?filter=none"
+            width="640"
+            height="480"
+        />
     </body>
 </html>

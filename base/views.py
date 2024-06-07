@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -5,10 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import UserForm
 from django.views.decorators import gzip
-from django.http import StreamingHttpResponse
-import cv2
-import threading
-
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseServerError, StreamingHttpResponse, JsonResponse
+from .camera import VideoCamera, gen
 
 # Create your views here.
 def home(request):
@@ -79,35 +79,29 @@ def logoutUser(request):
     messages.info(request, "Logged out successfully!")
     return redirect('/login')
 
-@gzip.gzip_page
-def video_feed(request):
-    try:
-        cam = VideoCamera()
-        return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
-    except:
-        pass
+def cam(request):
     return render(request, 'video_feed.html')
 
-class VideoCamera(object):
-    def __init__(self):
-        self.video = cv2.VideoCapture(0)
-        (self.grabbed, self.frame) = self.video.read()
-        threading.Thread(target=self.update, args=()).start()
+@gzip.gzip_page
+def video_feed(request):
+    filter_type = request.GET.get('filter', 'none')
+    try:
+        cam = VideoCamera(filter_type)
+        if cam is None:
+            raise Exception("Camera initialization failed.")
+        cam.filter_type = filter_type
+        return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
+    except Exception as e:
+        return render(request, 'video_feed.html', {'error': 'Camera initialization failed.'})
 
-    def __del__(self):
-        self.video.release()
-
-    def get_frame(self):
-        image = self.frame
-        _, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes()
-
-    def update(self):
-        while True:
-            (self.grabbed, self.frame) = self.video.read()
-
-def gen(camera):
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+@csrf_exempt
+def release_camera(request):
+    if request.method == 'POST':
+        try:
+            if VideoCamera.instance:
+                VideoCamera.instance.release_camera()
+                return JsonResponse({'status': 'Camera released'})
+            else:
+                return JsonResponse({'status': 'No camera to release'})
+        except Exception as e:
+            return JsonResponse({'status': f'Error: {e}'})

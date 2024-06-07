@@ -9,4 +9,6 @@ urlpatterns = [
     path('view', views.viewForms, name='view'),
     path('logout', views.logoutUser, name='logout'),
     path('video_feed', views.video_feed, name='video_feed'),
+    path('cam', views.cam, name='cam'),
+    path('release_camera', views.release_camera, name='release_camera'),
 ]
